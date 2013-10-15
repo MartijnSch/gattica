@@ -78,7 +78,7 @@ module Gattica
     #   my_gaid = 'gaid::-5'              # Non-paid Search Traffic
     #   ga.profile_id = 12345678          # Set our profile ID
     #
-    #   gs.get({ :start_date => '2008-01-01',
+    #   ga.get({ :start_date => '2008-01-01',
     #            :end_date => '2008-02-01',
     #            :dimensions => 'month',
     #            :metrics => 'views',
@@ -94,12 +94,36 @@ module Gattica
       return @user_segments
     end
 
+    # This is a convenience method if you want just 1 data point.
+    #
+    # == Usage
+    #
+    #   ga = Gattica.new({:token => 'oauth2_token'})
+    #   ga.get_metric('2008-01-01', '2008-02-01', :pageviews)
+    #
+    # == Input
+    #
+    # When calling +get_metric+ you can pass in any options like you would to +get+
+    #
+    # Required arguments are:
+    #
+    # * +start_date+ => Beginning of the date range to search within
+    # * +end_date+ => End of the date range to search within
+    # * +metric+ => The metric you want to get the data point for
+    #
+    def get_metric(start_date, end_date, metric, options={})
+     options.merge!( start_date: start_date.to_s,
+                    end_date: end_date.to_s,
+                    metrics:[metric.to_s] )
+     get(options).try(:points).try(:[],0).try(:metrics).try(:[],0).try(:[],metric) || 0
+    end
+
     # This is the method that performs the actual request to get data.
     #
     # == Usage
     #
     #   ga = Gattica.new({:token => 'oauth2_token'})
-    #   gs.get({ :start_date => '2008-01-01',
+    #   ga.get({ :start_date => '2008-01-01',
     #            :end_date => '2008-02-01',
     #            :dimensions => 'browser',
     #            :metrics => 'pageviews',
