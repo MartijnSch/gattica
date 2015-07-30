@@ -734,17 +734,6 @@ Version history
 ### 0.1.0 / 2009-03-26
   * Basic functionality working good. Can't use filters yet.
   
-Todo
-=======
-
-Management API
---------------
-  * List all filters.
-  * List custom data sources.
-  * List custom metrics.
-  * List custom dimensions.
-  * List unsampled reports.
-
 
 Maintainer history
 ------------------
