@@ -466,7 +466,7 @@ module Gattica
 
     def do_http_post(query_string, data)
       @headers['Content-Type'] = "application/octet-stream"
-      return_file_content(data)
+      data = return_file_content(data)
       response = @http.post(add_api_key(query_string), data, @headers)
 
       handle_response_code(response.body, response.code) if response.code != '200'
@@ -498,7 +498,7 @@ module Gattica
     # Open and return the content of a file
     def return_file_content(data)
       file = File.open(data, "rb")
-      data = file.read
+      data = file.read.gsub("\n","\n\r")
       return data
     end
 
