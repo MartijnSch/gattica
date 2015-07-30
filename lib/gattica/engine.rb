@@ -349,9 +349,9 @@ module Gattica
 
       if @upload.nil?
         create_http_connection('www.googleapis.com')
-        response = do_http_post("/analytics/v3/management/accounts/#{account_id}/webproperties/#{web_property_id}/customDataSources/#{custom_data_source_id}/uploads?uploadType=media", data)
+        response = do_http_post("/upload/analytics/v3/management/accounts/#{account_id}/webproperties/#{web_property_id}/customDataSources/#{custom_data_source_id}/uploads?uploadType=media", data)
         json = decompress_gzip(response)
-        @upload = json['items'].collect { |ur| Data::Upload.new(ur) }
+        @upload = Data::Upload.new(json)
       end
       return @upload
     end
@@ -465,6 +465,7 @@ module Gattica
     end
 
     def do_http_post(query_string, data)
+      @headers['Content-Type'] = "application/octet-stream"
       return_file_content(data)
       response = @http.post(add_api_key(query_string), data, @headers)
 
