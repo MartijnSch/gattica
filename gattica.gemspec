@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION.yml",
     "bin/gattica_get_access_token",
+    "bin/import_cost_data.rb",
     "gattica.gemspec",
     "lib/gattica.rb",
     "lib/gattica/hash_extensions.rb",
